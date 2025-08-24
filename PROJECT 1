@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aditya’s Landing Page</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: #222;
+      color: #fff;
+      padding: 15px 30px;
+    }
+
+    header nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-bar {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .menu-bar li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .menu-bar li a:hover {
+      background-color: #444;
+      color: #f39c12;
+    }
+
+    /* Hero Section */
+    #hero {
+      height: 80vh;
+      background: linear-gradient(to right, #3498db, #8e44ad);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      background: #f39c12;
+      color: #fff;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #e67e22;
+    }
+
+    /* Footer */
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <h1 class="logo">Aditya’s Landing</h1>
+      <ul class="menu-bar">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#footer">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="hero-content">
+      <h2>Proudly presenting my landing page, built for the Chain Chapter community 🚀</h2>
+      <p>This is a simple landing page built with HTML and CSS.</p>
+      <a href="#footer" class="btn">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- Placeholder About Section -->
+  <section id="about" style="padding: 60px 30px; background: #f4f4f4;">
+    <h2 style="text-align: center; margin-bottom: 20px;">About</h2>
+    <p style="text-align: center;">This section is about me. You can fill this with your bio or mission.</p>
+  </section>
+
+  <!-- Placeholder Projects Section -->
+  <section id="projects" style="padding: 60px 30px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Projects</h2>
+    <p style="text-align: center;">This section can showcase your work or portfolio.
+        <a href="new.html"> Project no-1</a>
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <p>Made with ❤️ by Aditya Bisht</p>
+  </footer>
+</body>
+</html>

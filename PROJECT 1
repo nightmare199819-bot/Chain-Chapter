@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aditya’s Landing Page</title>
+  <title>Chain Chapter Community</title>
   <style>
     /* Reset */
     * {
@@ -17,6 +17,59 @@
       line-height: 1.6;
     }
 
+    /* Center login page */
+    #login-page {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #3498db, #8e44ad);
+    }
+
+    .login-box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .login-box button {
+      background: #3498db;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #2980b9;
+    }
+
+    /* Landing Page (hidden by default) */
+    #landing-page {
+      display: none;
+    }
+
     /* Header */
     header {
       background: #222;
@@ -28,6 +81,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .logo-img {
+      height: 50px;
+      border-radius: 8px;
     }
 
     .menu-bar {
@@ -85,6 +143,50 @@
       background: #e67e22;
     }
 
+    /* About Section */
+    #about {
+      background:#f9f9f9; 
+      padding:80px 30px;
+    }
+
+    #about h2 {
+      font-size: 2.5rem; 
+      margin-bottom: 20px; 
+      color:#2c3e50;
+      text-align:center;
+    }
+
+    #about p {
+      font-size: 1.2rem; 
+      line-height:1.8; 
+      color:#444; 
+      margin-bottom: 50px;
+      text-align:center;
+    }
+
+    #about .grid {
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+      gap: 25px;
+    }
+
+    #about .card {
+      background:#fff; 
+      border-radius:15px; 
+      padding:25px; 
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    #about .card h3 {
+      margin-bottom:10px;
+    }
+
+    /* Projects */
+    #projects {
+      padding: 60px 30px;
+      text-align:center;
+    }
+
     /* Footer */
     footer {
       background: #222;
@@ -95,45 +197,99 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <nav>
-      <h1 class="logo">Aditya’s Landing</h1>
-      <ul class="menu-bar">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#footer">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <section id="hero">
-    <div class="hero-content">
-      <h2>Proudly presenting my landing page, built for the Chain Chapter community 🚀</h2>
-      <p>This is a simple landing page built with HTML and CSS.</p>
-      <a href="#footer" class="btn">Get in Touch</a>
+  <!-- Login Page -->
+  <div id="login-page">
+    <div class="login-box">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Sign In</button>
+      <p id="error-msg" style="color:red; margin-top:10px;"></p>
     </div>
-  </section>
+  </div>
 
-  <!-- Placeholder About Section -->
-  <section id="about" style="padding: 60px 30px; background: #f4f4f4;">
-    <h2 style="text-align: center; margin-bottom: 20px;">About</h2>
-    <p style="text-align: center;">This section is about me. You can fill this with your bio or mission.</p>
-  </section>
+  <!-- Landing Page -->
+  <div id="landing-page">
+    <!-- Header -->
+    <header>
+      <nav>
+        <img src="site logo.jpeg" alt="Logo" class="logo-img" height="150px" width="180px">
+        <ul class="menu-bar">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <!-- Placeholder Projects Section -->
-  <section id="projects" style="padding: 60px 30px;">
-    <h2 style="text-align: center; margin-bottom: 20px;">Projects</h2>
-    <p style="text-align: center;">This section can showcase your work or portfolio.
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="hero-content">
+        <h2>Chain Chapter Community</h2>
+        <p>Building skills, ideas, and trust — powered by blockchain</p>
+        <a href="#footer" class="btn">Get in Touch</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <h2>About Chain Chapter Community</h2>
+      <p>
+        <strong>Chain Chapter Community</strong> is a blockchain-driven hub that empowers 
+        learners and creators across multiple fields — from <strong>web development</strong> 
+        and <strong>video editing</strong> to <strong>innovative app ideas</strong>.  
+        Built on the principles of blockchain — a decentralized and secure digital ledger — 
+        our community fosters <strong>transparency</strong>, <strong>trust</strong>, and 
+        <strong>collaboration</strong>.  
+        We’re a supportive space where members grow together, share knowledge, and explore 
+        the future of technology.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3 style="color:#3498db;">🌍 Community First</h3>
+          <p>A welcoming hub where members collaborate, share resources, and grow together.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:#e67e22;">🔗 Blockchain Powered</h3>
+          <p>Built on decentralization and trust, ensuring transparency and innovation in every step.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:#27ae60;">🚀 Skills & Innovation</h3>
+          <p>From coding to creative fields, we empower learners to bring bold ideas to life.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>This section can showcase your work or portfolio.
         <a href="new.html"> Project no-1</a>
-    </p>
-  </section>
+      </p>
+    </section>
 
-  <!-- Footer -->
-  <footer id="footer">
-    <p>Made with ❤️ by Aditya Bisht</p>
-  </footer>
+    <!-- Footer -->
+    <footer id="footer">
+      <p>Made with ❤️ by Aditya Bisht</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("error-msg");
+
+      if (username === "aditya" && password === "Adipriti") {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("landing-page").style.display = "block";
+      } else {
+        errorMsg.textContent = "Invalid username or password!";
+      }
+    }
+  </script>
 </body>
 </html>

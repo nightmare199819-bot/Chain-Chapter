@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | AgriNova</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5fff9;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* Navigation */
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    nav ul li a:hover {
+      background: rgba(255,255,255,0.2);
+      color: #f1c40f;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: url('https://images.unsplash.com/photo-1524592094714-0f0654e20314') center/cover no-repeat;
+      color: white;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    .hero h1 {
+      position: relative;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.3;
+      display: inline-block;
+      padding: 20px 30px;
+      border-radius: 12px;
+      z-index: 1;
+    }
+
+    /* Cards Section */
+    section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #27ae60;
+    }
+    .card p {
+      font-size: 15px;
+      color: #555;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      nav ul {
+        gap: 15px;
+      }
+      .hero h1 {
+        font-size: 32px;
+      }
+      section {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>🌱 AgriNova</h1>
+    <nav>
+      <ul>
+        <li><a href="http://127.0.0.1:5500/hackthons/index.html">Home</a></li>
+        <li><a href="http://127.0.0.1:5500/hackthons/About.html">About Us</a></li>
+        <li><a href="http://127.0.0.1:5500/hackthons/Contact.html">Contact</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>About AgriNova</h1>
+  </section>
+
+  <!-- About Us Content -->
+  <section>
+    <div class="card">
+      <h2>Our Mission</h2>
+      <p>To connect farmers directly with consumers through a transparent, sustainable, and fair platform.</p>
+    </div>
+
+    <div class="card">
+      <h2>Fresh & Organic</h2>
+      <p>We partner with local farmers who practice organic farming—ensuring produce is chemical-free and full of nutrition.</p>
+    </div>
+
+    <div class="card">
+      <h2>Farmer Empowerment</h2>
+      <p>By eliminating middlemen, we provide fair prices to farmers and improve their livelihood.</p>
+    </div>
+
+    <div class="card">
+      <h2>Health First</h2>
+      <p>Customers get farm-fresh produce harvested within 24 hours for maximum taste and nutrition.</p>
+    </div>
+
+    <div class="card">
+      <h2>Eco-Friendly</h2>
+      <p>From farming practices to packaging, we focus on sustainability to protect the environment.</p>
+    </div>
+
+    <div class="card">
+      <h2>Community Driven</h2>
+      <p>Every purchase supports local agriculture and strengthens community growth.</p>
+    </div>
+
+    <div class="card">
+      <h2>Vision</h2>
+      <p>To redefine farm-to-table commerce by making healthy food accessible and supporting a greener future.</p>
+    </div>
+  </section>
+</body>
+</html>

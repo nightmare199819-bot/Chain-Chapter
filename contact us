@@ -180,8 +180,8 @@
         <li><a href="http://127.0.0.1:5500/hackthons/index.html">Home</a></li>
         <li><a href="http://127.0.0.1:5500/hackthons/About.html">About Us</a></li>
         <li><a href="http://127.0.0.1:5500/hackthons/Contact.html">Contact</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
+        <li><a href="http://127.0.0.1:5500/hackthons/login.html">Login</a></li>
+        <li><a href="http://127.0.0.1:5500/hackthons/login.html">Sign Up</a></li>
       </ul>
     </nav>
   </header>

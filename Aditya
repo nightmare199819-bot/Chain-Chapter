@@ -1,123 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aditya’s Landing Page</title>
-  <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Futuristic Student Community</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family: Arial, sans-serif;
+  color: #fff;
+  background: #000;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 
-    body {
-      line-height: 1.6;
-    }
+/* BACKGROUND CANVAS */
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at center, #1a001a, #000);
+}
 
-    /* Header */
-    header {
-      background: #222;
-      color: #fff;
-      padding: 15px 30px;
-    }
+/* CONTAINER */
+.container {
+  max-width: 780px;
+  padding: 10px;
+  margin: 0 auto;
+}
+@media only screen and (min-width:768px) { .container {padding: 20px;} }
+@media only screen and (min-width:992px) and (max-width:1199px) { .container {max-width: 1000px;} }
+@media only screen and (min-width:1200px) { .container {max-width: 1200px;} }
+@media only screen and (min-width:1800px) { .container {max-width: 1550px;} }
 
-    header nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+/* NAVIGATION BAR */
+nav {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #220022, #440044);
+  backdrop-filter: blur(10px);
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 0 10px #660066;
+}
+nav .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e0b3ff;
+  text-shadow: 0 0 10px #aa55ff;
+}
+nav .menu {
+  display: flex;
+  gap: 2rem;
+  position: relative; 
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  padding-bottom: 5px;
+  position: relative;
+}
+nav a:hover {
+  color: #ff99ff;
+  text-shadow: 0 0 8px #ff99ff, 0 0 15px #aa00ff;
+}
 
-    header ul {
-      display: flex;
-      list-style: none;
-    }
+/* Underline */
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, #aa00ff, #ff66ff);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
 
-    header ul li {
-      margin-left: 20px;
-    }
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+@media only screen and (max-width:768px) {
+  nav .menu {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: rgba(0,0,0,0.9);
+    flex-direction: column;
+    width: 200px;
+    display: none;
+    padding: 1rem;
+    border-radius: 0 0 0 10px;
+  }
+  nav .menu.active { display: flex; }
+  .hamburger { display: flex; }
+}
 
-    header ul li a {
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
+header { padding: 3rem 2rem 2rem; text-align: center; }
+header h1 { font-size: 3rem; color: #cc99ff; text-shadow: 0 0 20px #aa00ff; }
+header p { font-size: 1.2rem; margin-top: .5rem; opacity:.8; }
 
-    header ul li a:hover {
-      color: #f39c12;
-    }
+.hero { text-align:center; padding: 3rem 1rem; }
+.hero h2 { font-size:2rem; margin-bottom:1rem; color:#ff99ff; }
+.hero button {
+  padding: .8rem 1.5rem;
+  border:none;
+  border-radius:25px;
+  background: #aa00ff;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow: 0 0 15px #aa00ff;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.hero button:hover { transform: scale(1.1); box-shadow: 0 0 25px #ff66ff; }
 
-    /* Hero Section */
-    #hero {
-      height: 80vh;
-      background: linear-gradient(to right, #3498db, #8e44ad);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
+/* FEATURES */
+.features { display: grid; gap: 1.5rem; padding: 3rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.features h2 { grid-column:1/-1; text-align:center; font-size:2.2rem; color:#cc99ff; text-shadow: 0 0 20px #aa00ff, 0 0 40px #ff66ff; margin-bottom:2rem; }
+.feature {
+  background: rgba(170,0,255,0.05);
+  padding:1.5rem;
+  border-radius:15px;
+  backdrop-filter: blur(5px);
+  text-align:center;
+  box-shadow:0 0 20px rgba(170,0,255,0.2);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.feature:hover { transform: translateY(-10px); box-shadow:0 0 30px #aa00ff; }
+.feature h3 { color:#aa00ff; margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-shadow: 0 0 10px #aa00ff, 0 0 20px #ff66ff; }
 
-    .hero-content h2 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
+/* SOCIAL BOXES */
+.social { padding:3rem 1.5rem; text-align:center; }
+.social h2 { margin-bottom:1.5rem; color:#cc99ff; text-shadow: 0 0 10px #aa00ff; }
+.social-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+.social-box {
+  background: linear-gradient(145deg, #220022, #440044);
+  padding:1.5rem 2rem;
+  border-radius:15px;
+  box-shadow: 0 0 15px #aa00ff;
+  text-align:center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.social-box:hover { transform: translateY(-8px); box-shadow: 0 0 30px #ff66ff, 0 0 40px #aa00ff; }
+.social-box a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #aa00ff;
+  color:#fff;
+  border-radius: 25px;
+  font-weight:bold;
+  text-decoration:none;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.social-box a:hover {
+  background: #ff66ff;
+  transform: scale(1.05);
+}
 
-    .hero-content p {
-      font-size: 1.2rem;
-      margin-bottom: 25px;
-    }
+/* NEWSLETTER, APPLY, ABOUT */
+.newsletter, .apply, .about { padding:3rem 1.5rem; text-align:center; }
+.newsletter input { padding:.7rem; border:none; border-radius:20px; width:250px; margin-right:.5rem; }
+.newsletter button { padding:.7rem 1.2rem; border:none; border-radius:20px; background:#aa00ff; color:#fff; font-weight:bold; cursor:pointer; transition: transform .3s ease, box-shadow .3s ease; }
+.newsletter button:hover { transform: scale(1.05); box-shadow:0 0 20px #ff66ff; }
 
-    .btn {
-      background: #f39c12;
-      color: #fff;
-      padding: 12px 25px;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
+form { max-width:400px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; }
+form input, form textarea { padding:.8rem; border:none; border-radius:10px; }
+form button { padding:.8rem; border:none; border-radius:20px; background:#aa00ff; color:#fff; font-weight:bold; cursor:pointer; transition: transform .3s ease, box-shadow .3s ease; }
+form button:hover { transform: scale(1.05); box-shadow:0 0 20px #ff66ff; }
 
-    .btn:hover {
-      background: #e67e22;
-    }
+footer { text-align:center; padding:1rem; opacity:.6; }
 
-    /* Footer */
-    footer {
-      background: #222;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-    }
-  </style>
+/* INTRO ANIMATION */
+#introContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  overflow: hidden;
+  animation: fading-out 3.5s 1s forwards;
+}
+#introContainer .netflixintro {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #aa00ff;
+  text-shadow: 0 0 20px #aa00ff, 0 0 40px #ff66ff;
+  animation: zoom-in 3.5s 0.5s forwards;
+}
+@keyframes zoom-in { 0% { transform: scale(1); opacity: 0; } 100% { transform: scale(1.2); opacity: 1; } }
+@keyframes fading-out { 0% { opacity: 1; } 100% { opacity: 0; display: none; } }
+
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <nav>
-      <h1 class="logo">Aditya’s Landing</h1>
-      <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#footer">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+<!-- INTRO -->
+<div id="introContainer">
+  <div class="netflixintro">Chain Chapter</div>
+</div>
 
-  <!-- Hero Section -->
-  <section id="hero">
-    <div class="hero-content">
-      <h2>Proudly presenting my landing page, built for the Chain Chapter community 🚀</h2>
-      <p>This is a simple landing page built with HTML and CSS.</p>
-      <a href="#footer" class="btn">Get in Touch</a>
-    </div>
-  </section>
+<!-- Blockchain Background -->
+<canvas id="bgCanvas"></canvas>
 
-  <!-- Footer -->
-  <footer id="footer">
-    <p>Made with ❤️ by Aditya Bisht</p>
-  </footer>
+<!-- Navigation Menu -->
+<nav>
+  <div class="logo">Chain Chapter</div>
+  <div class="hamburger" onclick="toggleMenu()">
+    <div></div><div></div><div></div>
+  </div>
+  <div class="menu">
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#social">Social</a>
+    <a href="#newsletter">Newsletter</a>
+    <a href="#apply">Apply</a>
+    <a href="#about">About</a>
+    <div class="underline"></div>
+  </div>
+</nav>
+
+<header id="home" class="container">
+  <h1>Chain Chapter Community</h1>
+  <p>Explore the future of decentralized technology together</p>
+</header>
+
+<section class="hero container">
+  <h2>Join the Revolution</h2>
+  <button onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Started</button>
+</section>
+
+<!-- Features -->
+<section id="features" class="features container">
+  <h2>What We Offer</h2>
+  <div class="feature"><h3>🏆 Hackathons & Competitions</h3><p>Participate in exciting blockchain hackathons and coding competitions. Win prizes, build your portfolio, and showcase your skills to potential employers in the Web3 space.</p></div>
+  <div class="feature"><h3>🎤 Seminars & Webinars</h3><p>Attend exclusive seminars and webinars led by industry experts. Learn about the latest blockchain trends, DeFi protocols, and emerging technologies from leading professionals.</p></div>
+  <div class="feature"><h3>🚀 Career Opportunities</h3><p>Access exclusive internships, job placements, and startup opportunities in the blockchain industry. Connect directly with Web3 companies looking for talented students.</p></div>
+  <div class="feature"><h3>🤝 Student Network</h3><p>Connect with like-minded students from universities worldwide. Build lasting friendships, collaborate on projects, and create your professional blockchain network.</p></div>
+  <div class="feature"><h3>📚 Educational Resources</h3><p>Access comprehensive learning materials, tutorials, and guides tailored for students. From blockchain basics to advanced concepts, all designed for academic success.</p></div>
+  <div class="feature"><h3>🎯 Hands-On Events</h3><p>Join workshops, coding bootcamps, and project-building sessions. Get practical experience with real blockchain projects and build your technical skills.</p></div>
+</section>
+
+<!-- SOCIAL BOXES -->
+<section id="social" class="social container">
+  <h2>Connect With Us</h2>
+  <div class="social-links">
+    <div class="social-box"><a href="https://www.instagram.com/chain_chapter/" target="_blank">Follow Instagram</a></div>
+    <div class="social-box"><a href="https://t.me/+acMEPt9mq0k1Njll" target="_blank">Join Telegram</a></div>
+    <div class="social-box"><a href="https://x.com/CHAIN_CHAPTER" target="_blank">Follow Twitter</a></div>
+    <div class="social-box"><a href="https://www.linkedin.com/in/chainchapter" target="_blank">Connect LinkedIn</a></div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section id="newsletter" class="newsletter container">
+  <h2>Subscribe to Newsletter</h2>
+  <input type="email" placeholder="Enter your email"/>
+  <button>Subscribe</button>
+</section>
+
+<!-- Apply -->
+<section id="apply" class="apply container">
+  <h2>Start Your Chapter</h2>
+  <form>
+    <input type="text" placeholder="Name" required/>
+    <input type="email" placeholder="Email" required/>
+    <textarea rows="4" placeholder="Why do you want to start a chapter?" required></textarea>
+    <button type="submit">Apply</button>
+  </form>
+</section>
+
+<!-- About Me -->
+<section id="about" class="about container">
+  <h2 style="color:#cc99ff; text-shadow:0 0 15px #aa00ff; margin-bottom:1.5rem;">About Me</h2>
+  <div style="max-width:600px; margin:0 auto; background:rgba(170,0,255,0.05); padding:2rem; border-radius:15px; box-shadow:0 0 20px rgba(170,0,255,0.2);">
+    <p><strong>Name:</strong> Aditya Bisht</p>
+    <p><strong>Age:</strong> 17.8 years</p>
+    <p><strong>Instagram:</strong> <a href="https://www.instagram.com/adityabisht1711" target="_blank" style="color:#aa00ff; text-decoration:none;">@adityabisht1711</a></p>
+    <p><strong>Email:</strong> <a href="mailto:nightmare199819@gmail.com" style="color:#aa00ff; text-decoration:none;">nightmare199819@gmail.com</a></p>
+    <p><strong>Work Offer:</strong> First 1.5 months free work, then paid</p>
+    <p><strong>Goal:</strong> Seeking guidance & learning opportunities</p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Student Blockchain Community</p>
+</footer>
+
+<script>
+// Hide intro after animation
+setTimeout(() => document.getElementById('introContainer').style.display='none', 4500);
+
+// Toggle hamburger menu
+function toggleMenu() { document.querySelector('.menu').classList.toggle('active'); }
+
+// Animated menu underline
+const menu = document.querySelector('.menu');
+const underline = document.querySelector('.underline');
+menu.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('mouseenter', e=>{
+    const {offsetLeft, offsetWidth} = e.target;
+    underline.style.width = offsetWidth + 'px';
+    underline.style.left = offsetLeft + 'px';
+  });
+});
+menu.addEventListener('mouseleave', ()=>{
+  underline.style.width = '0';
+});
+
+// Blockchain Background Animation
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+const blocks = [];
+for (let i=0;i<12;i++){
+  blocks.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:40, dx:(Math.random()-0.5)*0.5, dy:(Math.random()-0.5)*0.5});
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(170,0,255,0.2)";
+  blocks.forEach((b1,i)=>{
+    blocks.forEach((b2,j)=>{
+      if(i!==j){
+        const dist=Math.hypot(b1.x-b2.x,b1.y-b2.y);
+        if(dist<200){
+          ctx.beginPath();
+          ctx.moveTo(b1.x,b1.y);
+          ctx.lineTo(b2.x,b2.y);
+          ctx.stroke();
+        }
+      }
+    });
+  });
+  blocks.forEach(b=>{
+    ctx.shadowColor="purple";
+    ctx.shadowBlur=20;
+    ctx.fillStyle="rgba(170,0,255,0.15)";
+    ctx.strokeStyle="purple";
+    ctx.lineWidth=2;
+    ctx.fillRect(b.x-b.size/2,b.y-b.size/2,b.size,b.size);
+    ctx.strokeRect(b.x-b.size/2,b.y-b.size/2,b.size,b.size);
+    b.x+=b.dx; b.y+=b.dy;
+    if(b.x<0||b.x>canvas.width) b.dx*=-1;
+    if(b.y<0||b.y>canvas.height) b.dy*=-1;
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
 </body>
 </html>

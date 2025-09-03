@@ -1,386 +1,930 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Futuristic Student Community</title>
-<style>
-* {margin:0;padding:0;box-sizing:border-box;}
-body {
-  font-family: Arial, sans-serif;
-  color: #fff;
-  background: #000;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chain Chapter — Student Blockchain Community</title>
 
-/* BACKGROUND CANVAS */
-#bgCanvas {
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#07060a;
+      --panel:#0f0e13;
+      --muted:#9aa1b2;
+      --accent-1:#7bb7ff; /* cyan */
+      --accent-2:#9a6cff; /* purple */
+      --accent-3:#58e6d8; /* teal highlight */
+      --glass: rgba(255,255,255,0.03);
+      --soft-shadow: 0 6px 22px rgba(3,6,23,0.6);
+      --card-radius:14px;
+      --max-width:1180px;
+      --transition: 260ms cubic-bezier(.2,.9,.3,1);
+    }
+
+    /* Page reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg,var(--bg) 0%, #040306 100%);
+      color:#E6EEF8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      line-height:1.45;
+    }
+
+    /* ---------- Watermark pentagon chain ----------
+       Using an inline SVG as a repeating background image with low opacity.
+       We animate the container pseudo-element to rotate slowly.
+    */
+.watermark
+{
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: radial-gradient(circle at center, #1a001a, #000);
-}
-
-/* CONTAINER */
-.container {
-  max-width: 780px;
-  padding: 10px;
-  margin: 0 auto;
-}
-@media only screen and (min-width:768px) { .container {padding: 20px;} }
-@media only screen and (min-width:992px) and (max-width:1199px) { .container {max-width: 1000px;} }
-@media only screen and (min-width:1200px) { .container {max-width: 1200px;} }
-@media only screen and (min-width:1800px) { .container {max-width: 1550px;} }
-
-/* NAVIGATION BAR */
-nav {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background: linear-gradient(90deg, #220022, #440044);
-  backdrop-filter: blur(10px);
-  padding: 0.8rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
-  box-shadow: 0 0 10px #660066;
-}
-nav .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #e0b3ff;
-  text-shadow: 0 0 10px #aa55ff;
-}
-nav .menu {
-  display: flex;
-  gap: 2rem;
-  position: relative; 
-}
-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-  padding-bottom: 5px;
-  position: relative;
-}
-nav a:hover {
-  color: #ff99ff;
-  text-shadow: 0 0 8px #ff99ff, 0 0 15px #aa00ff;
-}
-
-/* Underline */
-.underline {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  width: 0;
-  background: linear-gradient(90deg, #aa00ff, #ff66ff);
-  border-radius: 2px;
-  transition: all 0.3s ease;
+  inset: -25%; /* slightly larger so it doesn't cut off at edges */
+  z-index: 0;
   pointer-events: none;
+  opacity: 0.07; /* a bit more visible but still subtle */
+  filter: saturate(0.6) contrast(0.85) blur(0.8px); /* softens edges for a smooth look */
+  transform-origin: center;
+  will-change: transform;
+  animation: slow-rotate 90s linear infinite; /* slower rotation for elegance */
+  background-image: url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'>\
+      <defs>\
+        <linearGradient id='g' x1='0' x2='1' y1='0' y2='1'>\
+          <stop offset='0' stop-color='%237bb7ff' stop-opacity='0.85'/>\
+          <stop offset='1' stop-color='%239a6cff' stop-opacity='0.9'/>\
+        </linearGradient>\
+      </defs>\
+      <g fill='none' stroke='url(%23g)' stroke-width='2'>\
+        <polygon points='110,6 153,60 130,124 90,124 67,60' fill='black' fill-opacity='0.4'/>\
+        <circle cx='110' cy='63' r='22' fill='%239a6cff' fill-opacity='0.15'/>\
+        <polygon points='110,6 153,60 130,124 90,124 67,60' stroke='%237bb7ff' stroke-opacity='0.7' fill='none'/>\
+      </g>\
+    </svg>");
+  background-size: 220px 220px;
+  background-repeat: repeat;
+  background-position: center;
+  mix-blend-mode: soft-light; /* smoother blending */
 }
 
-/* Hamburger Menu */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 5px;
-}
-.hamburger div {
-  width: 25px;
-  height: 3px;
-  background: #fff;
-  border-radius: 2px;
-}
-@media only screen and (max-width:768px) {
-  nav .menu {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background: rgba(0,0,0,0.9);
-    flex-direction: column;
-    width: 200px;
-    display: none;
-    padding: 1rem;
-    border-radius: 0 0 0 10px;
-  }
-  nav .menu.active { display: flex; }
-  .hamburger { display: flex; }
+/* slower continuous rotation */
+@keyframes slow-rotate {
+  from { transform: rotate(0deg) scale(1); }
+  to   { transform: rotate(360deg) scale(1); }
 }
 
-header { padding: 3rem 2rem 2rem; text-align: center; }
-header h1 { font-size: 3rem; color: #cc99ff; text-shadow: 0 0 20px #aa00ff; }
-header p { font-size: 1.2rem; margin-top: .5rem; opacity:.8; }
+    /* ---------- Layout ---------- */
+    .site {
+      position:relative;
+      min-height:100vh;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+    }
+    .wrap {
+      width:100%;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:20px;
+    }
 
-.hero { text-align:center; padding: 3rem 1rem; }
-.hero h2 { font-size:2rem; margin-bottom:1rem; color:#ff99ff; }
-.hero button {
-  padding: .8rem 1.5rem;
-  border:none;
-  border-radius:25px;
-  background: #aa00ff;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow: 0 0 15px #aa00ff;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.hero button:hover { transform: scale(1.1); box-shadow: 0 0 25px #ff66ff; }
+    /* ---------- Header / Nav ---------- */
+    header.main-header{
+      position:sticky;
+      top:12px;
+      z-index:30;
+      margin:14px auto;
+      width:calc(100% - 32px);
+      backdrop-filter: blur(6px) saturate(1.05);
+    }
+    .nav {
+      display:flex;
+      align-items:center;
+      gap:16px;
+      justify-content:space-between;
+      padding:14px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      box-shadow: var(--soft-shadow);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .brand .logo {
+      width: 50px;
+      height: 60px;
+      border-radius: 8px;
+      background: #202020;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; /* NEW */
+    }
+    .brand .logo img {
+      width: 44px;        
+      height: 44px;       
+      object-fit: contain;
+      border-radius: inherit;
+    }
+    .brand h1{
+      font-size:1.05rem;margin:0;letter-spacing:0.6px;font-weight:700;
+      color:#dfe9ff;
+    }
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
 
-/* FEATURES */
-.features { display: grid; gap: 1.5rem; padding: 3rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.features h2 { grid-column:1/-1; text-align:center; font-size:2.2rem; color:#cc99ff; text-shadow: 0 0 20px #aa00ff, 0 0 40px #ff66ff; margin-bottom:2rem; }
-.feature {
-  background: rgba(170,0,255,0.05);
-  padding:1.5rem;
-  border-radius:15px;
-  backdrop-filter: blur(5px);
-  text-align:center;
-  box-shadow:0 0 20px rgba(170,0,255,0.2);
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.feature:hover { transform: translateY(-10px); box-shadow:0 0 30px #aa00ff; }
-.feature h3 { color:#aa00ff; margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-shadow: 0 0 10px #aa00ff, 0 0 20px #ff66ff; }
+    .nav-links {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      padding:8px 10px;
+      border-radius:8px;
+      transition:all var(--transition);
+      font-size:14px;
+    }
+    .nav-links a:hover{
+      color:var(--accent-1);
+      background:rgba(123,183,255,0.05);
+      transform:translateY(-2px);
+    }
 
-/* SOCIAL BOXES */
-.social { padding:3rem 1.5rem; text-align:center; }
-.social h2 { margin-bottom:1.5rem; color:#cc99ff; text-shadow: 0 0 10px #aa00ff; }
-.social-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  justify-items: center;
-}
-.social-box {
-  background: linear-gradient(145deg, #220022, #440044);
-  padding:1.5rem 2rem;
-  border-radius:15px;
-  box-shadow: 0 0 15px #aa00ff;
-  text-align:center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.social-box:hover { transform: translateY(-8px); box-shadow: 0 0 30px #ff66ff, 0 0 40px #aa00ff; }
-.social-box a {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: #aa00ff;
-  color:#fff;
-  border-radius: 25px;
-  font-weight:bold;
-  text-decoration:none;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-.social-box a:hover {
-  background: #ff66ff;
-  transform: scale(1.05);
-}
+    /* Hamburger for mobile */
+    .hamburger {
+      display:none;
+      width:40px;height:40px;border-radius:10px;
+      align-items:center;justify-content:center;
+      background:transparent;border:none;color:var(--muted);
+    }
 
-/* NEWSLETTER, APPLY, ABOUT */
-.newsletter, .apply, .about { padding:3rem 1.5rem; text-align:center; }
-.newsletter input { padding:.7rem; border:none; border-radius:20px; width:250px; margin-right:.5rem; }
-.newsletter button { padding:.7rem 1.2rem; border:none; border-radius:20px; background:#aa00ff; color:#fff; font-weight:bold; cursor:pointer; transition: transform .3s ease, box-shadow .3s ease; }
-.newsletter button:hover { transform: scale(1.05); box-shadow:0 0 20px #ff66ff; }
+    /* ---------- Hero ---------- */
+    .hero {
+      margin:28px auto 12px;
+      padding:56px 22px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border-radius:16px;
+      box-shadow: var(--soft-shadow);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero-left h2{
+      margin:0 0 8px;
+      font-size:2rem;
+      color: #e9f4ff;
+      letter-spacing:0.8px;
+    }
+    .hero-left p{
+      margin:0 0 18px;color:var(--muted);font-size:15px;
+    }
+    .cta-row{display:flex;gap:12px;align-items:center}
+    .btn{
+      padding:10px 14px;border-radius:12px;font-weight:700;border:none;cursor:pointer;
+      transition:all var(--transition);display:inline-flex;align-items:center;gap:10px;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      color:#061020;box-shadow: 0 8px 30px rgba(122,160,255,0.12);
+    }
+    .btn-secondary{
+      background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04);
+    }
+    .btn-primary:hover{ transform: translateY(-4px) scale(1.01) }
+    .btn-secondary:hover{ color:var(--accent-2); border-color:rgba(153,108,255,0.18); transform: translateY(-3px) }
 
-form { max-width:400px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; }
-form input, form textarea { padding:.8rem; border:none; border-radius:10px; }
-form button { padding:.8rem; border:none; border-radius:20px; background:#aa00ff; color:#fff; font-weight:bold; cursor:pointer; transition: transform .3s ease, box-shadow .3s ease; }
-form button:hover { transform: scale(1.05); box-shadow:0 0 20px #ff66ff; }
+    /* Hero right: small stats / card */
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+    }
+    .stat-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
+    .stat{
+      min-width:110px;padding:12px;border-radius:10px;background:var(--glass);text-align:center;
+    }
+    .stat .num{font-weight:700;font-size:18px;color:#eaf6ff}
+    .stat .label{font-size:12px;color:var(--muted)}
 
-footer { text-align:center; padding:1rem; opacity:.6; }
+    /* ---------- Features grid ---------- */
+    .section {
+      margin:22px 0;
+      padding:18px;
+      background:transparent;border-radius:12px;
+    }
+    .features-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border-radius:var(--card-radius);
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 6px 18px rgba(5,8,20,0.55);
+      display:flex;flex-direction:column;gap:10px;
+      will-change: transform;
+    }
+    .card:hover{
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 20px 60px rgba(64,40,120,0.12);
+    }
+    .card .icon{
+      font-size:26px;width:48px;height:48px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg, rgba(123,183,255,0.08), rgba(154,108,255,0.06));
+      color:var(--accent-2);
+    }
+    .card h3{margin:0;font-size:16px;color:#e8f6ff}
+    .card p{margin:0;color:var(--muted);font-size:13.5px}
 
-/* INTRO ANIMATION */
-#introContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  background-color: #000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2000;
-  overflow: hidden;
-  animation: fading-out 3.5s 1s forwards;
-}
-#introContainer .netflixintro {
-  font-size: 4rem;
-  font-weight: bold;
-  color: #aa00ff;
-  text-shadow: 0 0 20px #aa00ff, 0 0 40px #ff66ff;
-  animation: zoom-in 3.5s 0.5s forwards;
-}
-@keyframes zoom-in { 0% { transform: scale(1); opacity: 0; } 100% { transform: scale(1.2); opacity: 1; } }
-@keyframes fading-out { 0% { opacity: 1; } 100% { opacity: 0; display: none; } }
+    /* ---------- Community / newsletter ---------- */
+    .community-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+    .community-card{
+      padding:14px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);
+      text-align:center;
+    }
+    .community-card h4{margin:8px 0;color:#eaf6ff}
+    .community-card p{color:var(--muted);font-size:13px}
+    .community-btn{
+      margin-top:12px;display:inline-block;padding:8px 12px;border-radius:10px;font-weight:700;
+      color:#061020;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      text-decoration:none;border:none;
+    }
 
-</style>
+    .newsletter {
+      display:flex;gap:10px;align-items:center;margin-top:14px;
+      background:transparent;padding:12px;border-radius:12px;
+    }
+    .newsletter input{
+      padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      background:transparent;color: #eaf6ff;flex:1;
+    }
+
+    /* ---------- Application form ---------- */
+    .chapter {
+      display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:start;
+    }
+    .form {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+    }
+    .form label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    .form input,.form select,.form textarea{
+      width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);
+      background:transparent;color:#eaf6ff;margin-bottom:10px;
+    }
+    .form .row{display:flex;gap:10px}
+    .form .small{flex:1}
+    .submit-application-btn{
+      width:100%;padding:12px;border-radius:12px;border:none;font-weight:700;
+      background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:#061020;
+    }
+
+    /* footer */
+    footer{
+      margin-top:28px;padding:22px 18px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.03);
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+    }
+    footer p{margin:0;color:var(--muted);font-size:13px}
+
+    /* subtle cursor aura */
+    .cursor {
+      position:fixed;z-index:60;pointer-events:none;width:36px;height:36px;border-radius:50%;
+      transform:translate(-50%,-50%);mix-blend-mode:screen;
+      background: radial-gradient(circle at 35% 30%, rgba(123,183,255,0.18), rgba(154,108,255,0.09) 40%, transparent 60%);
+      transition: transform 120ms linear, opacity 120ms linear;
+      opacity:0.9;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 6px 28px rgba(107,88,200,0.06);
+    }
+
+    /* toast success */
+    .toast {
+      position:fixed;right:20px;bottom:20px;background:linear-gradient(180deg,#071224, #091026);
+      color:#e6f6ff;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 10px 40px rgba(5,10,30,0.6);z-index:80;opacity:0;transform:translateY(12px);transition:all 260ms;
+    }
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    /* small screens */
+    @media (max-width:1000px){
+      .hero{ grid-template-columns:1fr; padding:28px; }
+      .chapter{ grid-template-columns:1fr; }
+      .features-grid{ grid-template-columns:repeat(2,1fr) }
+      .community-grid{ grid-template-columns:repeat(2,1fr) }
+    }
+    @media (max-width:640px){
+      .wrap{ padding:12px; }
+      .nav-links{ display:none }
+      .hamburger{ display:flex; }
+      .hero-left h2{ font-size:1.4rem }
+      .features-grid{ grid-template-columns:1fr }
+      .community-grid{ grid-template-columns:1fr }
+      .brand h1{ font-size:0.95rem }
+    }
+    /* INTRO ANIMATION */
+    #introContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background-color: #000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2000;
+      overflow: hidden;
+      animation: fading-out 3.5s 1s forwards;
+    }
+
+    #introContainer .netflixintro {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #aa00ff;
+      text-shadow: 0 0 20px #aa00ff, 0 0 40px #ff66ff;
+      animation: zoom-in 3.5s 0.5s forwards;
+    }
+    @keyframes zoom-in { 0% { transform: scale(1); opacity: 0; } 100% { transform: scale(1.2); opacity: 1; } }
+    @keyframes fading-out { 0% { opacity: 1; } 100% { opacity: 0; display: none; } }
+
+
+    .events {
+      margin: 60px auto;
+      padding: 20px;
+      max-width: 900px;
+      background: rgba(32,32,32,0.8);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .events h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #fff;
+      border-bottom: 2px solid #444;
+      padding-bottom: 5px;
+    }
+
+    .event-list {
+      display: flex;
+      justify-content: center;
+    }
+    .event-carousel {
+      position: relative;
+      text-align: center;
+    }
+
+    .event-slide {
+      display: none;
+    }
+
+    .event-slide.active {
+      display: block;
+    }
+
+    .event-carousel button {
+      margin: 10px;
+      padding: 8px 16px;
+      border: none;
+      background: #444;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .event-carousel button:hover {
+      background: #666;
+    }
+
+  </style>  
 </head>
 <body>
 <!-- INTRO -->
 <div id="introContainer">
   <div class="netflixintro">Chain Chapter</div>
 </div>
+  <!-- watermark -->
+  <div class="watermark" aria-hidden="true"></div>
 
-<!-- Blockchain Background -->
-<canvas id="bgCanvas"></canvas>
+  <div class="site">
+    <div class="wrap">
 
-<!-- Navigation Menu -->
-<nav>
-  <div class="logo">Chain Chapter</div>
-  <div class="hamburger" onclick="toggleMenu()">
-    <div></div><div></div><div></div>
-  </div>
-  <div class="menu">
-    <a href="#home">Home</a>
-    <a href="#features">Features</a>
-    <a href="#social">Social</a>
-    <a href="#newsletter">Newsletter</a>
-    <a href="#apply">Apply</a>
-    <a href="#about">About</a>
-    <div class="underline"></div>
-  </div>
-</nav>
+      <!-- header / nav -->
+      <header class="main-header" role="banner">
+        <nav class="nav" role="navigation" aria-label="Main">
+          <div class="brand" aria-hidden="false">
+            <a href="/" class="logo" aria-label="Homepage">
+              <img src="hi.png" alt="Site Logo">
+            </a>
 
-<header id="home" class="container">
-  <h1>Chain Chapter Community</h1>
-  <p>Explore the future of decentralized technology together</p>
-</header>
 
-<section class="hero container">
-  <h2>Join the Revolution</h2>
-  <button onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Started</button>
-</section>
+            <div>
+              <h1>Chain Chapter</h1>
+              <p>Student Blockchain Community</p>
+            </div>
+          </div>
 
-<!-- Features -->
-<section id="features" class="features container">
-  <h2>What We Offer</h2>
-  <div class="feature"><h3>🏆 Hackathons & Competitions</h3><p>Participate in exciting blockchain hackathons and coding competitions. Win prizes, build your portfolio, and showcase your skills to potential employers in the Web3 space.</p></div>
-  <div class="feature"><h3>🎤 Seminars & Webinars</h3><p>Attend exclusive seminars and webinars led by industry experts. Learn about the latest blockchain trends, DeFi protocols, and emerging technologies from leading professionals.</p></div>
-  <div class="feature"><h3>🚀 Career Opportunities</h3><p>Access exclusive internships, job placements, and startup opportunities in the blockchain industry. Connect directly with Web3 companies looking for talented students.</p></div>
-  <div class="feature"><h3>🤝 Student Network</h3><p>Connect with like-minded students from universities worldwide. Build lasting friendships, collaborate on projects, and create your professional blockchain network.</p></div>
-  <div class="feature"><h3>📚 Educational Resources</h3><p>Access comprehensive learning materials, tutorials, and guides tailored for students. From blockchain basics to advanced concepts, all designed for academic success.</p></div>
-  <div class="feature"><h3>🎯 Hands-On Events</h3><p>Join workshops, coding bootcamps, and project-building sessions. Get practical experience with real blockchain projects and build your technical skills.</p></div>
-</section>
+          <div class="nav-links" id="nav-links">
+            <a href="#home">Home</a>
+            <a href="#events">Events</a>
+            <a href="#community">Community</a>
+            <a href="#opportunities">Opportunities</a>
+            <a href="#contact">Contact</a>
+          </div>
 
-<!-- SOCIAL BOXES -->
-<section id="social" class="social container">
-  <h2>Connect With Us</h2>
-  <div class="social-links">
-    <div class="social-box"><a href="https://www.instagram.com/chain_chapter/" target="_blank">Follow Instagram</a></div>
-    <div class="social-box"><a href="https://t.me/+acMEPt9mq0k1Njll" target="_blank">Join Telegram</a></div>
-    <div class="social-box"><a href="https://x.com/CHAIN_CHAPTER" target="_blank">Follow Twitter</a></div>
-    <div class="social-box"><a href="https://www.linkedin.com/in/chainchapter" target="_blank">Connect LinkedIn</a></div>
-  </div>
-</section>
+          <button class="hamburger" id="hambtn" aria-label="Open menu" aria-expanded="false">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect y="1" width="20" height="2" rx="1" fill="currentColor" />
+              <rect y="6" width="20" height="2" rx="1" fill="currentColor" />
+              <rect y="11" width="20" height="2" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+        </nav>
+      </header>
 
-<!-- Newsletter -->
-<section id="newsletter" class="newsletter container">
-  <h2>Subscribe to Newsletter</h2>
-  <input type="email" placeholder="Enter your email"/>
-  <button>Subscribe</button>
-</section>
+      <!-- HERO -->
+      <main role="main">
+        <section id="home" class="hero" aria-labelledby="hero-title">
+          <div class="hero-left">
+            <h2 id="hero-title">Join Chain Chapter — Build, Learn & Compete</h2>
+            <p>Join thousands of students building blockchain skills through hackathons, seminars, projects and chapter leadership. Practical learning, mentorship, and opportunities to launch your Web3 career.</p>
 
-<!-- Apply -->
-<section id="apply" class="apply container">
-  <h2>Start Your Chapter</h2>
-  <form>
-    <input type="text" placeholder="Name" required/>
-    <input type="email" placeholder="Email" required/>
-    <textarea rows="4" placeholder="Why do you want to start a chapter?" required></textarea>
-    <button type="submit">Apply</button>
-  </form>
-</section>
+            <div class="cta-row" role="group" aria-label="Call to action">
+              <button class="btn btn-primary" onclick="scrollToSection('events')">Join Events</button>
+              <button class="btn btn-secondary" onclick="scrollToSection('opportunities')">Start a Chapter</button>
+            </div>
 
-<!-- About Me -->
-<section id="about" class="about container">
-  <h2 style="color:#cc99ff; text-shadow:0 0 15px #aa00ff; margin-bottom:1.5rem;">About Me</h2>
-  <div style="max-width:600px; margin:0 auto; background:rgba(170,0,255,0.05); padding:2rem; border-radius:15px; box-shadow:0 0 20px rgba(170,0,255,0.2);">
-    <p><strong>Name:</strong> Aditya Bisht</p>
-    <p><strong>Age:</strong> 17.8 years</p>
-    <p><strong>Instagram:</strong> <a href="https://www.instagram.com/adityabisht1711" target="_blank" style="color:#aa00ff; text-decoration:none;">@adityabisht1711</a></p>
-    <p><strong>Email:</strong> <a href="mailto:nightmare199819@gmail.com" style="color:#aa00ff; text-decoration:none;">nightmare199819@gmail.com</a></p>
-    <p><strong>Work Offer:</strong> First 1.5 months free work, then paid</p>
-    <p><strong>Goal:</strong> Seeking guidance & learning opportunities</p>
-  </div>
-</section>
+            <div style="margin-top:18px;display:flex;gap:12px;align-items:center">
+              <div style="padding:6px 10px;border-radius:10px;background:rgba(123,183,255,0.04);border:1px solid rgba(123,183,255,0.04);font-weight:700;color:var(--accent-1)">Free workshops</div>
+              <div style="padding:6px 10px;border-radius:10px;background:rgba(154,108,255,0.03);border:1px solid rgba(154,108,255,0.03);font-weight:700;color:var(--accent-2)">Expert mentors</div>
+            </div>
+          </div>
 
-<footer>
-  <p>&copy; 2025 Student Blockchain Community</p>
-</footer>
+          <aside class="hero-card" aria-hidden="false">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong style="font-size:14px;color:#eaf6ff">Community Highlights</strong>
+              <small style="color:var(--muted)">Updated</small>
+            </div>
 
-<script>
-// Hide intro after animation
-setTimeout(() => document.getElementById('introContainer').style.display='none', 4500);
+            <div class="stat-row" style="margin-top:12px">
+              <div class="stat">
+                <div class="num stat-number">1200</div>
+                <div class="label">Members</div>
+              </div>
+              <div class="stat">
+                <div class="num stat-number">48</div>
+                <div class="label">Chapters</div>
+              </div>
+              <div class="stat">
+                <div class="num stat-number">26</div>
+                <div class="label">Events / yr</div>
+              </div>
+            </div>
+          </aside>
+        </section>
 
-// Toggle hamburger menu
-function toggleMenu() { document.querySelector('.menu').classList.toggle('active'); }
+        <!-- Events / Features -->
+        <section id="events" class="section">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 style="margin:0">What We Offer Students</h3>
+            <p style="margin:0;color:var(--muted)">Practical workshops • Hackathons • Mentorship</p>
+          </div>
 
-// Animated menu underline
-const menu = document.querySelector('.menu');
-const underline = document.querySelector('.underline');
-menu.querySelectorAll('a').forEach(link=>{
-  link.addEventListener('mouseenter', e=>{
-    const {offsetLeft, offsetWidth} = e.target;
-    underline.style.width = offsetWidth + 'px';
-    underline.style.left = offsetLeft + 'px';
-  });
-});
-menu.addEventListener('mouseleave', ()=>{
-  underline.style.width = '0';
-});
+          <div class="features-grid" style="margin-top:14px">
+            <div class="card">
+              <div class="icon">🏆</div>
+              <h3>Hackathons & Competitions</h3>
+              <p>Project-led hackathons to sharpen skills, win prizes and get noticed by startups and recruiters.</p>
+            </div>
 
-// Blockchain Background Animation
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+            <div class="card">
+              <div class="icon">🎤</div>
+              <h3>Seminars & Webinars</h3>
+              <p>Live talks and recorded sessions from engineers and researchers in blockchain and cryptography.</p>
+            </div>
 
-const blocks = [];
-for (let i=0;i<12;i++){
-  blocks.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:40, dx:(Math.random()-0.5)*0.5, dy:(Math.random()-0.5)*0.5});
-}
+            <div class="card">
+              <div class="icon">🚀</div>
+              <h3>Career Opportunities</h3>
+              <p>Internships, project collaborations, and resumes built from real Web3 projects.</p>
+            </div>
 
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle="rgba(170,0,255,0.2)";
-  blocks.forEach((b1,i)=>{
-    blocks.forEach((b2,j)=>{
-      if(i!==j){
-        const dist=Math.hypot(b1.x-b2.x,b1.y-b2.y);
-        if(dist<200){
-          ctx.beginPath();
-          ctx.moveTo(b1.x,b1.y);
-          ctx.lineTo(b2.x,b2.y);
-          ctx.stroke();
-        }
+            <div class="card">
+              <div class="icon">🤝</div>
+              <h3>Student Network</h3>
+              <p>Connect with peers, form teams and learn together across universities worldwide.</p>
+            </div>
+
+            <div class="card">
+              <div class="icon">📚</div>
+              <h3>Educational Resources</h3>
+              <p>Guides, curated curricula, workshop materials and hands-on labs.</p>
+            </div>
+
+            <div class="card">
+              <div class="icon">🎯</div>
+              <h3>Hands-on Events</h3>
+              <p>Bootcamps and project sessions for real product experience — not just slides.</p>
+            </div>
+          </div>
+        </section>
+        <!-- Upcoming Events -->
+        <section class="events upcoming-events">
+          <h2>Upcoming Events</h2>
+          <div class="event-carousel">
+            
+            <!-- Slides -->
+            <div class="event-slide active">
+              <blockquote class="instagram-media"
+                data-instgrm-permalink="https://www.instagram.com/p/DOEVQSCkuAA/?utm_source=ig_web_copy_link"
+                data-instgrm-version="14"
+                style="background:#fff; border:0; margin: auto; max-width:540px; width:100%; min-width:326px;">
+              </blockquote>
+            </div>
+
+            <div class="event-slide">
+              <blockquote class="instagram-media"
+                data-instgrm-permalink="https://www.instagram.com/p/DNtaLL45ihR/?utm_source=ig_web_copy_link"
+                data-instgrm-version="14"
+                style="background:#fff; border:0; margin: auto; max-width:540px; width:100%; min-width:326px;">
+              </blockquote>
+            </div>
+
+            <div class="event-slide">
+              <blockquote class="instagram-media"
+                data-instgrm-permalink="https://www.instagram.com/p/DN5I5IjkgxZ/?utm_source=ig_web_copy_link"
+                data-instgrm-version="14"
+                style="background:#fff; border:0; margin: auto; max-width:540px; width:100%; min-width:326px;">
+              </blockquote>
+            </div>
+
+            <!-- Controls -->
+            <button class="prev-btn">⬅ Prev</button>
+            <button class="next-btn">Next ➡</button>
+
+            <script async src="https://www.instagram.com/embed.js"></script>
+          </div>
+        </section>
+
+
+        <!-- Old Events -->
+        <section class="events old-events">
+          <h2>Old Events</h2>
+          <div class="event-list">
+            <!-- Instagram Embed -->
+            <blockquote class="instagram-media"
+              data-instgrm-permalink="https://www.instagram.com/p/DNm5CP-SEwq/?utm_source=ig_web_copy_link"
+              data-instgrm-version="14"
+              style="background:#fff; border:0; margin: 20px auto; max-width:540px; width:100%; min-width:326px;">
+            </blockquote>
+            <script async src="https://www.instagram.com/embed.js"></script>
+          </div>
+        </section>
+
+
+
+        <!-- Community -->
+        <section id="community" class="section">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 style="margin:0">Join Our Community</h3>
+            <p style="margin:0;color:var(--muted)">Follow for updates, highlights and opportunities</p>
+          </div>
+
+          <div class="community-grid" style="margin-top:12px">
+            <div class="community-card">
+              <div class="community-icon">📸</div>
+              <h4>Instagram</h4>
+              <p>Daily highlights and student spotlights.</p>
+              <a class="community-btn" href="https://instagram.com/chain_chapter" target="_blank" rel="noopener">Follow</a>
+            </div>
+
+            <div class="community-card">
+              <div class="community-icon">📱</div>
+              <h4>Telegram</h4>
+              <p>Instant announcements and event reminders.</p>
+              <a class="community-btn" href="https://t.me/+acMEPt9mq0k1Njll" target="_blank" rel="noopener">Join</a>
+            </div>
+
+            <div class="community-card">
+              <div class="community-icon">🐦</div>
+              <h4>X / Twitter</h4>
+              <p>Project showcases and ecosystem news.</p>
+              <a class="community-btn" href="https://x.com/CHAIN_CHAPTER" target="_blank" rel="noopener">Follow</a>
+            </div>
+
+            <div class="community-card">
+              <div class="community-icon">💼</div>
+              <h4>LinkedIn</h4>
+              <p>Professional network and job opportunities.</p>
+              <a class="community-btn" href="https://www.linkedin.com/in/chainchapter" target="_blank" rel="noopener">Connect</a>
+            </div>
+          </div>
+
+          <!-- newsletter -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:12px;flex-wrap:wrap">
+            <div style="min-width:220px">
+              <h4 style="margin:0">Stay Updated</h4>
+              <p style="margin:0;color:var(--muted)">Weekly newsletter — events, scholarships and opportunities.</p>
+            </div>
+
+            <div class="newsletter" style="flex:1;max-width:540px">
+              <input id="newsletter-email" type="email" placeholder="your.email@domain.com" aria-label="Email address for newsletter">
+              <button id="subscribeBtn" class="btn btn-primary">Subscribe</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Opportunities / Chapter -->
+        <section id="opportunities" class="section">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 style="margin:0">Start a Chain Chapter</h3>
+            <p style="margin:0;color:var(--muted)">Lead on campus — we'll support curriculum & events</p>
+          </div>
+
+          <div class="chapter" style="margin-top:12px">
+            <div class="form" aria-hidden="false">
+              <h4 style="margin-top:0">Apply to Start a Chapter</h4>
+              <p style="color:var(--muted);font-size:13px;margin-top:6px">Fill out this short form and our team will follow up.</p>
+
+              <form id="chapterForm" class="form" novalidate>
+                <label for="fullName">Full name *</label>
+                <input id="fullName" name="fullName" type="text" required placeholder="Your full name">
+
+                <div class="row">
+                  <div class="small">
+                    <label for="emailC">Email *</label>
+                    <input id="emailC" name="email" type="email" required placeholder="your.email@university.edu">
+                  </div>
+                  <div class="small">
+                    <label for="phone">Mobile</label>
+                    <input id="phone" name="phone" type="tel" placeholder="+91 91234 56789">
+                  </div>
+                </div>
+
+                <label for="university">University / College *</label>
+                <input id="university" name="university" required placeholder="Your university">
+
+                <label for="experience">Blockchain experience</label>
+                <select id="experience" name="experience">
+                  <option value="">Select</option>
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+
+                <label for="motivation">Why start a chapter? *</label>
+                <textarea id="motivation" name="motivation" rows="4" required placeholder="Tell us your motivation..."></textarea>
+
+                <label style="display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)">
+                  <input id="agree" type="checkbox" required>
+                  <span>I agree to be contacted by Chain Chapter</span>
+                </label>
+
+                <button type="submit" class="submit-application-btn">Submit Application</button>
+              </form>
+            </div>
+
+            <aside style="padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03);">
+              <h4 style="margin-top:0">Why lead a chapter?</h4>
+              <ul style="padding-left:18px;color:var(--muted)">
+                <li>Official recognition & certificates</li>
+                <li>Access to mentors & speakers</li>
+                <li>Materials, workshop kits & collateral</li>
+                <li>Network with global chapter leads</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+      </main>
+
+      <footer id="contact">
+        <div>
+          <strong>Chain Chapter</strong>
+          <p style="color:var(--muted);margin:4px 0 0;font-size:13px">Empowering students through practical blockchain education.</p>
+        </div>
+        <div>
+          <p style="color:var(--muted);margin:0;font-size:13px">&copy; <span id="year">2025</span> Chain Chapter. All rights reserved.</p>
+        </div>
+      </footer>
+
+    </div> <!-- wrap -->
+  </div> <!-- site -->
+
+  <!-- subtle cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">Subscribed ✔️</div>
+
+  <script>
+    /* ---------- Utility: smooth scroll ---------- */
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    /* ---------- Mobile nav toggle ---------- */
+    const hb = document.getElementById('hambtn');
+    const navlinks = document.getElementById('nav-links');
+    hb.addEventListener('click', ()=> {
+      const open = navlinks.style.display === 'flex';
+      navlinks.style.display = open ? '' : 'flex';
+      navlinks.style.flexDirection = 'column';
+      navlinks.style.position = 'absolute';
+      navlinks.style.top = '74px';
+      navlinks.style.right = '18px';
+      navlinks.style.background = 'linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4))';
+      navlinks.style.padding = '12px';
+      navlinks.style.borderRadius = '10px';
+      navlinks.style.boxShadow = '0 10px 30px rgba(2,6,20,0.6)';
+      hb.setAttribute('aria-expanded', String(!open));
+      if(!open) {
+        // close on outside click
+        setTimeout(()=> {
+          document.addEventListener('click', outsideNavClick);
+        }, 40);
+      } else {
+        document.removeEventListener('click', outsideNavClick);
       }
     });
-  });
-  blocks.forEach(b=>{
-    ctx.shadowColor="purple";
-    ctx.shadowBlur=20;
-    ctx.fillStyle="rgba(170,0,255,0.15)";
-    ctx.strokeStyle="purple";
-    ctx.lineWidth=2;
-    ctx.fillRect(b.x-b.size/2,b.y-b.size/2,b.size,b.size);
-    ctx.strokeRect(b.x-b.size/2,b.y-b.size/2,b.size,b.size);
-    b.x+=b.dx; b.y+=b.dy;
-    if(b.x<0||b.x>canvas.width) b.dx*=-1;
-    if(b.y<0||b.y>canvas.height) b.dy*=-1;
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-</script>
+    function outsideNavClick(e){
+      if(!navlinks.contains(e.target) && e.target !== hb){
+        navlinks.style.display = '';
+        document.removeEventListener('click', outsideNavClick);
+        hb.setAttribute('aria-expanded','false');
+      }
+    }
+
+    /* ---------- Subtle cursor follow ---------- */
+    const cursor = document.getElementById('cursor');
+    window.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    window.addEventListener('mousedown', ()=> cursor.style.transform = 'translate(-50%,-50%) scale(0.85)');
+    window.addEventListener('mouseup', ()=> cursor.style.transform = 'translate(-50%,-50%) scale(1)');
+
+    /* ---------- Parallax for small decorative movement (safe) ---------- */
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if(!ticking){
+        window.requestAnimationFrame(()=> {
+          const scrolled = window.scrollY;
+        // watermark already rotates via CSS, just add subtle vertical shift for depth
+        const watermark = document.querySelector('.watermark');
+        if (watermark) {
+          watermark.style.transform = `translateY(${scrolled * 0.05}px)`;
+        }
+
+          // push hero-card slightly
+          const heroCard = document.querySelector('.hero-card');
+          if(heroCard){
+            heroCard.style.transform = `translateY(${Math.min(30, scrolled * 0.06)}px)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    /* ---------- animate stat numbers when visible ---------- */
+    function animateStats(){
+      document.querySelectorAll('.stat-number').forEach(el=>{
+        const final = parseInt(el.textContent,10);
+        el.textContent = '0';
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              let cur = 0;
+              const step = Math.max(1, Math.floor(final / 50));
+              const id = setInterval(()=> {
+                cur += step;
+                if(cur >= final){
+                  el.textContent = String(final);
+                  clearInterval(id);
+                } else {
+                  el.textContent = String(cur);
+                }
+              }, 18);
+              obs.unobserve(el);
+            }
+          })
+        }, {threshold:0.6});
+        io.observe(el);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', animateStats);
+
+    /* ---------- Card tilt on pointer move (subtle) ---------- */
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('pointermove', e=>{
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rx = (py - 0.5) * 6; // tilt range
+        const ry = (px - 0.5) * -6;
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+      });
+      card.addEventListener('pointerleave', ()=> {
+        card.style.transform = '';
+      });
+    });
+
+    /* ---------- Newsletter subscribe (client-side mock) ---------- */
+    const subscribeBtn = document.getElementById('subscribeBtn');
+    const newsletterEmail = document.getElementById('newsletter-email');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg='Saved', time=2600){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(window._toastT);
+      window._toastT = setTimeout(()=> toast.classList.remove('show'), time);
+    }
+
+    subscribeBtn.addEventListener('click', ()=>{
+      const email = (newsletterEmail.value || '').trim();
+      if(!email || !/^\S+@\S+\.\S+$/.test(email)){
+        showToast('Please enter a valid email');
+        return;
+      }
+      // simulate success (replace with fetch to API if available)
+      showToast('Subscribed — check your inbox!');
+      newsletterEmail.value = '';
+    });
+
+    /* ---------- Chapter form handling ---------- */
+    const chapterForm = document.getElementById('chapterForm');
+    chapterForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      // client-side validation
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('emailC').value.trim();
+      const uni = document.getElementById('university').value.trim();
+      const mot = document.getElementById('motivation').value.trim();
+      const agree = document.getElementById('agree').checked;
+      if(!name || !email || !uni || !mot || !agree || !/^\S+@\S+\.\S+$/.test(email)){
+        showToast('Please complete the required fields');
+        return;
+      }
+
+      // visual feedback (in real app, send to server)
+      showToast('Application submitted — we will reach out.');
+      chapterForm.reset();
+    });
+
+    /* ---------- set current year ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+  
+    const slides = document.querySelectorAll('.event-slide');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    nextBtn.addEventListener('click', () => {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    });
+
+    prevBtn.addEventListener('click', () => {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+    });
+
+    // Show first slide by default
+    showSlide(current);
+
+
+  </script>
 </body>
 </html>

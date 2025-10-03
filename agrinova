@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriNova | Farm Fresh</title>
+  <!-- Link Poppins font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ------------------- Global Styles ------------------- */
+    body {
+      margin: 0;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      background: #f8fff9;
+      color: #222;
+    }
+
+    /* ------------------- Header & Navigation ------------------- */
+    header {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+      padding: 30px 80px; 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      gap: 40px; 
+    }
+    header h1 {
+      margin: 0;
+      font-size: 34px; 
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      /* Adjusted gap to accommodate the cart button */
+      gap: 30px; 
+      align-items: center;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 18px; 
+      padding: 8px 15px; 
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    /* Standard Nav Link Underline */
+    nav ul li a:not(.cart-btn)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0%;
+      height: 2px;
+      background: #f1c40f;
+      transition: 0.3s;
+    }
+    nav ul li a:not(.cart-btn):hover::after {
+      width: 100%;
+    }
+    
+    /* Order/Cart Styling - Now used inside a nav list item */
+    .cart {
+      background: #f1c40f;
+      color: #000;
+      /* Reduced padding slightly for the more compact display */
+      padding: 10px 18px; 
+      border-radius: 25px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      font-size: 16px; 
+      white-space: nowrap; 
+      display: inline-block;
+    }
+    /* Ensure the link container doesn't apply standard link padding/color */
+    .cart-link-container a {
+        padding: 0;
+        transition: none;
+    }
+    .cart:hover {
+      transform: scale(1.05);
+    }
+    
+    /* ------------------- Hero Section ------------------- */
+    .hero {
+      text-align: center;
+      padding: 160px 30px; 
+      background: url('https://static.investindia.gov.in/s3fs-public/2019-02/Blog%20Image.jpg') center/cover no-repeat;
+      color: white;
+      position: relative;
+      z-index: -1; 
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.65); 
+    }
+    .hero h1 {
+      position: relative;
+      font-size: 60px; 
+      font-weight: 700;
+      z-index: 1;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+      margin-bottom: 25px;
+    }
+    .hero p {
+        position: relative;
+        z-index: 1;
+        font-size: 22px; 
+        margin-bottom: 45px;
+    }
+    .buttons {
+      margin-top: 30px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Primary CTA button styling */
+    .btn-primary {
+      padding: 16px 45px; 
+      border: none;
+      border-radius: 30px;
+      font-size: 19px; 
+      cursor: pointer;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-decoration: none; 
+      display: inline-block;
+      
+      background: linear-gradient(135deg, #f1c40f, #f39c12); 
+      color: #222;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ------------------- Generic Section Styling ------------------- */
+    .section-title {
+      text-align: center;
+      font-size: 40px; 
+      margin-bottom: 60px; 
+      color: #27ae60;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 90px; 
+      height: 3px;
+      background: #27ae60;
+      margin: 15px auto 0; 
+      border-radius: 2px;
+    }
+
+    /* ------------------- Product Section (FLEXIBLE) ------------------- */
+    .products {
+      padding: 100px 50px; 
+      background: linear-gradient(180deg, #f8fff9, #ffffff);
+    }
+    .product-grid {
+      /* This is the flexible grid setup requested */
+      display: grid;
+      /* Items will maintain a minimum width of 260px and grow to fill 1 fraction of the space. They will wrap automatically. */
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+      gap: 40px; 
+    }
+    .product {
+      background: #fff;
+      border-radius: 15px;
+      padding: 25px; 
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    .product:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+    .product img {
+      width: 100%;
+      height: 220px; 
+      object-fit: cover; 
+      border-radius: 12px;
+      margin-bottom: 16px;
+      transition: none; 
+    }
+    .product h3 {
+      font-size: 22px; 
+      margin: 14px 0 5px; 
+      color: #333;
+    }
+    .product-price {
+      color: #e67e22; 
+      font-size: 19px; 
+      font-weight: 700;
+      margin: 5px 0 18px;
+    }
+    .add-btn {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+      border: none;
+      padding: 12px 22px; 
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px; 
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .add-btn:hover {
+      background: linear-gradient(135deg, #219150, #27ae60);
+      transform: scale(1.05);
+    }
+
+    /* ------------------- About Us Section ------------------- */
+    .about {
+      padding: 100px 50px; 
+      background: #ffffff;
+      line-height: 1.9; 
+    }
+    .about-content {
+        display: flex;
+        gap: 50px; 
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto 60px auto; 
+    }
+    .about-text {
+        flex: 1;
+        font-size: 17px; 
+    }
+    .about-image {
+        flex: 1;
+        max-width: 450px;
+    }
+    .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+    }
+    
+    /* Featured Product Styling */
+    .featured-product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 35px; 
+        background: #f8fff9;
+        border-radius: 15px;
+        border: 1px solid #e6ffe6;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    .featured-title {
+        font-size: 28px; 
+        font-weight: 600;
+        color: #2ecc71;
+        text-align: center;
+        margin-bottom: 30px; 
+    }
+    .featured-card {
+        display: flex;
+        align-items: center;
+        gap: 30px; 
+        background: #fff;
+        padding: 25px; 
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .featured-img {
+        width: 120px; 
+        height: 120px; 
+        object-fit: cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+    .featured-details h4 {
+        font-size: 22px; 
+        margin: 0 0 8px 0;
+        color: #333;
+    }
+    .featured-details p {
+        margin: 0 0 12px 0;
+        font-size: 16px; 
+        color: #666;
+    }
+    .featured-price {
+        color: #e67e22; 
+        font-size: 20px; 
+        font-weight: 700;
+        margin-bottom: 10px !important;
+    }
+
+    /* ------------------- Contact Section ------------------- */
+    .contact {
+        padding: 100px 50px; 
+        background: #f8fff9;
+    }
+    .contact-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .contact-form, .contact-info {
+        flex: 1 1 45%; 
+        min-width: 300px;
+    }
+    .contact-form form {
+        background: #fff;
+        padding: 35px; 
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    }
+    .contact-form label {
+        display: block;
+        margin-bottom: 10px; 
+        font-weight: 500;
+        color: #333;
+    }
+    .contact-form input, .contact-form textarea {
+        width: 100%;
+        padding: 14px; 
+        margin-bottom: 25px; 
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box; 
+        font-family: "Poppins", sans-serif;
+        font-size: 17px; 
+    }
+    .contact-form textarea {
+        resize: vertical;
+    }
+    .contact-info p {
+        margin-bottom: 30px; 
+        font-size: 18px; 
+        color: #555;
+    }
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px; 
+        color: #27ae60;
+        font-weight: 600;
+        font-size: 17px; 
+    }
+    .info-item span {
+        margin-right: 15px;
+        font-size: 28px; 
+    }
+    .info-item a {
+        color: #27ae60;
+        text-decoration: none;
+    }
+
+
+    /* ------------------- Footer ------------------- */
+    footer {
+      background: #222;
+      color: #ddd;
+      text-align: center;
+      padding: 30px; 
+      margin-top: 0; 
+      font-size: 15px; 
+    }
+    footer a {
+      color: #2ecc71;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ------------------- ORDER SIDEBAR STYLES ------------------- */
+    #order-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 380px; /* Generous width */
+        height: 100%;
+        background: #ffffff;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+        /* Initially hidden */
+        transform: translateX(100%);
+        transition: transform 0.4s ease-in-out;
+        z-index: 2000; 
+        display: flex;
+        flex-direction: column;
+    }
+    #order-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-header {
+        padding: 25px;
+        background: #2ecc71;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 10px;
+    }
+    .sidebar-header h2 {
+        margin: 0;
+        font-size: 26px; 
+    }
+    #close-sidebar {
+        background: none;
+        border: 1px solid white;
+        color: white;
+        font-size: 24px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    #close-sidebar:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .cart-items-list {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 20px 25px;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px dashed #eee;
+        font-size: 16px; 
+    }
+    .cart-item-details {
+        flex-grow: 1;
+    }
+    .item-name {
+        font-weight: 600;
+        color: #333;
+    }
+    .item-quantity, .item-price {
+        color: #666;
+        font-size: 15px;
+    }
+    .item-total {
+        font-weight: 700;
+        color: #e67e22;
+        font-size: 17px;
+        margin-right: 15px;
+        min-width: 60px;
+        text-align: right;
+    }
+
+    .remove-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+    }
+    .remove-btn:hover {
+        background: #c0392b;
+    }
+
+    .sidebar-footer {
+        padding: 20px 25px;
+        border-top: 2px solid #ddd;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+    }
+    .total-summary {
+        display: flex;
+        justify-content: space-between;
+        font-size: 24px; 
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #27ae60;
+    }
+    .checkout-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+        color: white;
+        border: none;
+        padding: 16px; 
+        border-radius: 10px;
+        font-size: 19px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .checkout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    /* ------------------- Responsive Styles ------------------- */
+    @media (max-width: 1024px) {
+        .about-content {
+            flex-direction: column;
+        }
+        .about-image {
+            max-width: 100%;
+        }
+    }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 25px; 
+        gap: 15px;
+      }
+      nav ul {
+        justify-content: space-between; /* Adjusted to spread links */
+        width: 100%;
+        gap: 10px;
+      }
+      .hero {
+        padding: 120px 20px; 
+      }
+      .hero h1 {
+        font-size: 44px; 
+      }
+      .btn-primary {
+        display: block;
+        width: 80%;
+        margin: 15px auto;
+      }
+      /* Ensure products section has proper mobile padding */
+      .products {
+        padding: 80px 20px; /* Adjusted padding for better mobile fit */
+      }
+      .about, .contact {
+        padding: 80px 25px; 
+      }
+      .contact-container {
+        flex-direction: column;
+        gap: 30px;
+      }
+      .contact-form, .contact-info {
+        min-width: 100%;
+      }
+      .featured-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      #order-sidebar {
+        width: 100%; /* Full width on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌱 AgriNova</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#about-us">About Us</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+        
+        <!-- Updated to say 'Order' and only show item count -->
+        <li class="cart-link-container">
+            <a href="#" id="cart-toggle" class="cart-btn">
+                <span class="cart">🛒 Order (<span id="cart-count">0</span>)</span>
+            </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Fresh from the Farm,<br>Straight to You.</h1>
+    <p>Connecting you directly with local, organic, and sustainably grown produce.</p>
+    <div class="buttons">
+      <a href="#products" class="btn-primary">Explore Our Produce</a>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="about" id="about-us">
+    <h2 class="section-title">Farm Fresh. Fair. Sustainable.</h2>
+    <div class="about-content">
+        <div class="about-text">
+            <p>
+                AgriNova bridges the gap between Indian farmers and consumers—delivering fresh, high-quality produce straight from the farm to your kitchen. By removing middlemen, we ensure farmers receive fair compensation while you receive healthier, locally sourced food.
+            </p>
+            <p>
+                We stand for organic, sustainable farming that nurtures the soil, respects the environment, and builds stronger communities. With every delivery, you're not just choosing better food—you're choosing a greener future.
+            </p>
+        </div>
+        <div class="about-image">
+            <img src="https://source.unsplash.com/600x400/?sustainable,farming" alt="A sustainable farm with crops and sunlight">
+        </div>
+    </div>
+
+    <!-- Featured Product Styling -->
+    <div class="featured-product-container">
+        <h3 class="featured-title">This Week's Fresh Harvest Highlight</h3>
+        <div class="featured-card">
+            <img src="https://d2aahj3gqshloy.cloudfront.net/files/16.2%20Blueberry.png" alt="Organic Fresh Blueberries" class="featured-img">
+            <div class="featured-details">
+                <h4>Organic Blueberries</h4>
+                <p>Picked yesterday at our partner farm in Maharashtra, these sweet, juicy berries are packed with antioxidants. **Limited stock available!**</p>
+                <p class="featured-price">₹180.00/box</p>
+                <!-- Updated button to use data-attributes and the new function -->
+                <button class="add-btn" data-name="Blueberries (Box)" data-price="180" onclick="addToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products" id="products">
+    <h2 class="section-title">Our Fresh Produce</h2>
+    <div class="product-grid">
+      <!-- Product 1: Tomatoes -->
+      <div class="product">
+        <img src="https://www.farmatma.in/wp-content/uploads/2018/01/tomato-crop.jpg" alt="Tomatoes">
+        <h3>Tomatoes</h3>
+        <p class="product-price">₹40.00/kg</p>
+        <button class="add-btn" data-name="Tomatoes (Kg)" data-price="40" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 2: Potatoes -->
+      <div class="product">
+        <img src="https://www.farmatma.in/wp-content/uploads/2017/12/potato-farming.jpg" alt="Potatoes">
+        <h3>Potatoes</h3>
+        <p class="product-price">₹30.00/kg</p>
+        <button class="add-btn" data-name="Potatoes (Kg)" data-price="30" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 3: Onions -->
+      <div class="product">
+        <img src="https://cdn.shopify.com/s/files/1/1375/4957/files/blog_img_6.jpg?v=1573206246" alt="Onions">
+        <h3>Onions</h3>
+        <p class="product-price">₹35.00/kg</p>
+        <button class="add-btn" data-name="Onions (Kg)" data-price="35" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 4: Apples -->
+      <div class="product">
+        <img src="https://ichef.bbci.co.uk/images/ic/480xn/p07v2wjn.jpg.webp" alt="Apples">
+        <h3>Apples</h3>
+        <p class="product-price">₹120.00/kg</p>
+        <button class="add-btn" data-name="Apples (Kg)" data-price="120" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 5: Bananas -->
+      <div class="product">
+        <img src="https://nutritionsource.hsph.harvard.edu/wp-content/uploads/2018/08/bananas-1354785_1920-1024x683.jpg" alt="Bananas">
+        <h3>Bananas</h3>
+        <p class="product-price">₹50.00/dozen</p>
+        <button class="add-btn" data-name="Bananas (Dozen)" data-price="50" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 6: Grapes -->
+      <div class="product">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-cQz4yuc1WzNo98EOXHuT1lJSvoHp_Gr_mg&s" alt="Grapes">
+        <h3>Grapes</h3>
+        <p class="product-price">₹90.00/kg</p>
+        <button class="add-btn" data-name="Grapes (Kg)" data-price="90" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 7: Mangoes -->
+      <div class="product">
+        <img src="https://c.ndtvimg.com/2025-04/g8bj8qu8_mango-news_650x400_30_April_25.jpg?im=FeatureCrop,algorithm=dnn,width=1200,height=738" alt="Mangoes">
+        <h3>Mangoes</h3>
+        <p class="product-price">₹150.00/kg</p>
+        <button class="add-btn" data-name="Mangoes (Kg)" data-price="150" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+      <!-- Product 8: Carrots -->
+      <div class="product">
+        <img src="https://www.trustbasket.com/cdn/shop/articles/Carrot.jpg?v=1688378789" alt="Carrots">
+        <h3>Carrots</h3>
+        <p class="product-price">₹45.00/kg</p>
+        <button class="add-btn" data-name="Carrots (Kg)" data-price="45" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-container">
+        <div class="contact-form">
+            <h3>Send us a message</h3>
+            <form onsubmit="event.preventDefault(); showMessage();">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com">
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required placeholder="How can we help you today?"></textarea>
+
+                <button type="submit" class="add-btn">Send Message</button>
+            </form>
+            <!-- Custom Message Box for form submission -->
+            <div id="contact-message" style="margin-top: 20px; padding: 10px; background-color: #e6ffe6; border: 1px solid #27ae60; border-radius: 5px; display: none;">
+                Thank you! Your message has been received (simulated). We will get back to you shortly.
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <h3>Contact Details</h3>
+            <p>We'd love to hear from you! Whether you are a farmer interested in joining our network or a customer with a query, reach out to us.</p>
+            
+            <div class="info-item">
+                <span style="font-size: 28px;">📧</span> 
+                <a href="mailto:contact@agrinova.in">contact@agrinova.in</a>
+            </div>
+            <div class="info-item">
+                <span style="font-size: 28px;">📞</span> 
+                <a href="tel:+919876543210">+91 9876 543 210</a>
+            </div>
+            <div class="info-item">
+                <span style="font-size: 28px;">📍</span> 
+                <span>AgriNova HQ, New Delhi, India</span>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 AgriNova. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+  </footer>
+
+  <!-- ORDER SIDEBAR HTML -->
+  <div id="order-sidebar">
+    <div class="sidebar-header">
+        <h2>Your Order</h2>
+        <button id="close-sidebar">✕</button>
+    </div>
+    <div id="cart-items-list" class="cart-items-list">
+        <!-- Cart items will be rendered here by JavaScript -->
+        <p class="text-center text-muted" id="empty-cart-message">Your cart is empty.</p>
+    </div>
+    <div class="sidebar-footer">
+        <div class="total-summary">
+            <span>Subtotal:</span>
+            <span id="sidebar-cart-total">₹0.00</span>
+        </div>
+        <!-- IMPORTANT: Using a custom modal/message is required, not alert() -->
+        <button class="checkout-btn" onclick="showMessageBox('Checkout simulated! Your total is: ' + document.getElementById('sidebar-cart-total').textContent)">Proceed to Checkout</button>
+    </div>
+  </div>
+  
+  <!-- Custom Message Box for Checkout -->
+  <div id="custom-message-box" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 3000;">
+      <div id="message-content" style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); max-width: 90%; min-width: 300px;">
+          <p id="message-text" style="font-size: 18px; font-weight: 500; color: #333; margin-bottom: 20px;"></p>
+          <button onclick="hideMessageBox()" style="background: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+      </div>
+  </div>
+
+  <script>
+    // Cart state is now an array of objects
+    let cart = [];
+
+    // Custom message box functions (replacing alert/confirm)
+    function showMessageBox(message) {
+        document.getElementById('message-text').textContent = message;
+        document.getElementById('custom-message-box').style.display = 'flex';
+    }
+
+    function hideMessageBox() {
+        document.getElementById('custom-message-box').style.display = 'none';
+    }
+
+    // Helper function to update the main cart display in the header and sidebar footer
+    function updateCartSummary() {
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        // Update Header (Order count)
+        document.getElementById("cart-count").textContent = count;
+        
+        // Update Sidebar Footer
+        document.getElementById("sidebar-cart-total").textContent = `₹${total.toFixed(2)}`;
+
+        // Show/hide empty message
+        document.getElementById("empty-cart-message").style.display = cart.length === 0 ? 'block' : 'none';
+    }
+
+    // Function to render the cart contents in the sidebar
+    function renderCart() {
+        const cartList = document.getElementById("cart-items-list");
+        
+        // Remove all previous items before re-rendering
+        const items = cartList.querySelectorAll('.cart-item');
+        items.forEach(item => item.remove());
+
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            const cartItemDiv = document.createElement('div');
+            cartItemDiv.className = 'cart-item';
+            
+            // Note: The item name is escaped for use in the onclick function
+            const escapedName = item.name.replace(/'/g, "\\'");
+
+            cartItemDiv.innerHTML = `
+                <div class="cart-item-details">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-quantity">${item.quantity} x ₹${item.price.toFixed(2)}</div>
+                </div>
+                <div class="item-total">₹${itemTotal.toFixed(2)}</div>
+                <!-- Call removeFromCart with the item's name -->
+                <button class="remove-btn" onclick="removeFromCart('${escapedName}')">Remove</button>
+            `;
+            // Insert new item before the empty message
+            cartList.insertBefore(cartItemDiv, document.getElementById("empty-cart-message"));
+        });
+
+        updateCartSummary();
+    }
+
+    // Function to add item to cart (called from product buttons)
+    function addToCart(button) {
+        // Retrieve data from button attributes
+        const name = button.dataset.name;
+        const price = parseFloat(button.dataset.price);
+
+        const existingItem = cart.find(item => item.name === name);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            // Push new item object to cart array
+            cart.push({ name, price, quantity: 1 });
+        }
+
+        renderCart();
+    }
+
+    // Function to remove/decrement item from cart (called from sidebar buttons)
+    function removeFromCart(name) {
+        const existingItemIndex = cart.findIndex(item => item.name === name);
+
+        if (existingItemIndex > -1) {
+            const item = cart[existingItemIndex];
+            
+            if (item.quantity > 1) {
+                item.quantity -= 1; // Decrement quantity
+            } else {
+                // Remove the entire item if quantity is 1
+                cart.splice(existingItemIndex, 1); 
+            }
+        }
+        
+        renderCart();
+    }
+
+    // Cart toggle logic
+    function toggleCart() {
+        document.getElementById('order-sidebar').classList.toggle('open');
+    }
+
+    // Function to simulate form submission and show a message 
+    function showMessage() {
+        document.getElementById('contact-message').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('contact-message').style.display = 'none';
+        }, 5000); // Hide the message after 5 seconds
+        // Clear the form fields after submission
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('message').value = '';
+    }
+
+    // Setup event listeners once the DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize the cart display
+        updateCartSummary();
+
+        // Open cart via new navigation button
+        document.getElementById('cart-toggle').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleCart();
+        });
+
+        // Close cart via X button in sidebar
+        document.getElementById('close-sidebar').addEventListener('click', toggleCart);
+    });
+  </script>
+</body>
+</html>
